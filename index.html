@@ -4,26 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мандориновая любовь</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
 <style>
-body {
+body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:'Roboto Slab', serif;
   background: linear-gradient(to bottom right, #FFA07A, #FF6347);
   color:#fff;
   overflow-x:hidden;
-  transition: background 0.5s;
+  transition:background 0.5s;
 }
-body.dark {
-  background: linear-gradient(to bottom right, #2c2c2c, #111);
-  color:#fff;
+body.dark{
+  background: linear-gradient(to bottom right,#2c2c2c,#111);
 }
 header{
   text-align:center;
   padding:30px 10px;
-  font-size:2.2em;
+  font-size:2.4em;
   font-weight:bold;
-  text-shadow:1px 1px 5px rgba(0,0,0,0.4);
+  text-shadow:1px 1px 6px rgba(0,0,0,0.4);
 }
 .cover{
   width:100%;
@@ -40,8 +39,8 @@ header{
   scroll-snap-type:x mandatory;
   gap:15px;
   padding:20px 10px;
-  scroll-behavior: smooth;
-  transition: filter 0.3s;
+  scroll-behavior:smooth;
+  transition:filter 0.3s;
 }
 .carousel-item{
   position:relative;
@@ -53,19 +52,23 @@ header{
   overflow:hidden;
   box-shadow:0 6px 20px rgba(0,0,0,0.4);
   scroll-snap-align:center;
-  transition: transform 0.5s, box-shadow 0.5s, opacity 0.5s;
   opacity:0;
-  transform:translateY(50px);
+  transform:scale(0.85);
+  transition:transform 0.5s,opacity 0.5s;
 }
 .carousel-item.visible{
   opacity:1;
-  transform:translateY(0);
+  transform:scale(1);
 }
 .carousel-item img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
+  transition:transform 0.3s;
+}
+.carousel-item:hover img{
+  transform:scale(1.05);
 }
 .carousel-item .caption{
   position:absolute;
@@ -76,7 +79,7 @@ header{
   padding:5px;
   font-size:0.9em;
   opacity:0;
-  transition: opacity 0.3s;
+  transition:opacity 0.3s;
 }
 .carousel-item:hover .caption{
   opacity:1;
@@ -86,6 +89,8 @@ header{
 .carousel-indicators{
   text-align:center;
   margin:10px 0;
+  overflow-x:auto;
+  white-space:nowrap;
 }
 .carousel-indicators .dot{
   display:inline-block;
@@ -93,20 +98,20 @@ header{
   height:10px;
   background:rgba(255,255,255,0.5);
   border-radius:50%;
-  margin:0 5px;
+  margin:0 3px;
   cursor:pointer;
-  transition: background 0.3s, transform 0.3s;
+  transition:background 0.3s, transform 0.3s;
 }
 .carousel-indicators .dot.active{
-  background:#FFD700;
-  transform:scale(1.3);
+  background:linear-gradient(45deg,#FFD700,#FFA500);
+  transform:scale(1.4);
 }
 
 /* Модальное окно */
 .modal{
   position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  top:0;left:0;
+  width:100%;height:100%;
   background: rgba(0,0,0,0.85);
   display:flex;
   align-items:center;
@@ -118,27 +123,35 @@ header{
   padding:20px;
   z-index:100;
   flex-direction:column;
-  backdrop-filter:blur(5px);
+  backdrop-filter:blur(6px);
 }
 .modal.active{
   opacity:1;
   pointer-events:all;
 }
+.modal img {
+  max-width: 90%;
+  max-height: 60%;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+  object-fit: cover;
+  transform: scale(0.8);
+  opacity: 0;
+  animation:photoPop 0.5s forwards;
+}
 .quote-container{
   max-width:80%;
+  font-family:'Pacifico', cursive;
+  font-size:1.3em;
+  line-height:1.6;
 }
 .quote-word{
   display:inline-block;
   opacity:0;
   transform:translateY(20px);
-  font-family: 'Pacifico', cursive;
-  font-size:1.3em;
-  line-height:1.5;
   animation:floatIn 0.5s forwards;
-}
-.quote-word:hover{
-  transform: translateY(-5px) scale(1.05);
-  text-shadow: 1px 1px 3px rgba(255,200,100,0.7);
+  margin-right:2px;
 }
 .nav-arrow{
   position:absolute;
@@ -171,15 +184,17 @@ footer{
   cursor:pointer;
   z-index:200;
 }
-@media (max-width:600px){
+@media(max-width:600px){
   .carousel-item{ width:90%; }
-  .quote-word{ font-size:1.1em; }
+  .quote-container{ font-size:1.1em; max-width:90%; }
   .nav-arrow{ font-size:1.5em; }
 }
-@keyframes floatIn{
-  to{opacity:1; transform:translateY(0);}
-}
+@keyframes floatIn{ to{opacity:1; transform:translateY(0);} }
 @keyframes fadeIn{ to{opacity:1;} }
+@keyframes photoPop {
+  0% { transform: scale(0.8); opacity:0; filter: brightness(0.8) drop-shadow(0 0 0 rgba(255,165,0,0)); }
+  100% { transform: scale(1); opacity:1; filter: brightness(1.1) drop-shadow(0 0 20px rgba(255,165,0,0.5)); }
+}
 </style>
 </head>
 <body>
@@ -190,43 +205,45 @@ footer{
 <img src="images/cover.jpg" alt="Обложка" class="cover">
 
 <div class="carousel" id="carousel">
-  <!-- 30 фото с подписью -->
+  <!-- 30 фото -->
   <div class="carousel-item"><img src="images/photo1.jpg"><div class="caption">Фото 1: начало истории</div></div>
-<div class="carousel-item"><img src="images/photo2.jpg"><div class="caption">Фото 2: первые встречи</div></div>
-<div class="carousel-item"><img src="images/photo3.jpg"><div class="caption">Фото 3: улыбки</div></div>
-<div class="carousel-item"><img src="images/photo4.jpg"><div class="caption">Фото 4: прогулка</div></div>
-<div class="carousel-item"><img src="images/photo5.jpg"><div class="caption">Фото 5: вечер</div></div>
-<div class="carousel-item"><img src="images/photo6.jpg"><div class="caption">Фото 6: смех</div></div>
-<div class="carousel-item"><img src="images/photo7.jpg"><div class="caption">Фото 7: разговоры</div></div>
-<div class="carousel-item"><img src="images/photo8.jpg"><div class="caption">Фото 8: дождь</div></div>
-<div class="carousel-item"><img src="images/photo9.jpg"><div class="caption">Фото 9: солнце</div></div>
-<div class="carousel-item"><img src="images/photo10.jpg"><div class="caption">Фото 10: закат</div></div>
-<div class="carousel-item"><img src="images/photo11.jpg"><div class="caption">Фото 11: прогулка вечером</div></div>
-<div class="carousel-item"><img src="images/photo12.jpg"><div class="caption">Фото 12: кофе</div></div>
-<div class="carousel-item"><img src="images/photo13.jpg"><div class="caption">Фото 13: смех под дождем</div></div>
-<div class="carousel-item"><img src="images/photo14.jpg"><div class="caption">Фото 14: совместные планы</div></div>
-<div class="carousel-item"><img src="images/photo15.jpg"><div class="caption">Фото 15: вечерние огни</div></div>
-<div class="carousel-item"><img src="images/photo16.jpg"><div class="caption">Фото 16: шепот</div></div>
-<div class="carousel-item"><img src="images/photo17.jpg"><div class="caption">Фото 17: маленькие радости</div></div>
-<div class="carousel-item"><img src="images/photo18.jpg"><div class="caption">Фото 18: смех до слез</div></div>
-<div class="carousel-item"><img src="images/photo19.jpg"><div class="caption">Фото 19: прогулка ночью</div></div>
-<div class="carousel-item"><img src="images/photo20.jpg"><div class="caption">Фото 20: мандариновый закат</div></div>
-<div class="carousel-item"><img src="images/photo21.jpg"><div class="caption">Фото 21: уютные моменты</div></div>
-<div class="carousel-item"><img src="images/photo22.jpg"><div class="caption">Фото 22: смех и радость</div></div>
-<div class="carousel-item"><img src="images/photo23.jpg"><div class="caption">Фото 23: прогулка вдвоем</div></div>
-<div class="carousel-item"><img src="images/photo24.jpg"><div class="caption">Фото 24: вечерние огни города</div></div>
-<div class="carousel-item"><img src="images/photo25.jpg"><div class="caption">Фото 25: разговоры о мечтах</div></div>
-<div class="carousel-item"><img src="images/photo26.jpg"><div class="caption">Фото 26: улыбки и счастье</div></div>
-<div class="carousel-item"><img src="images/photo27.jpg"><div class="caption">Фото 27: дождливый день</div></div>
-<div class="carousel-item"><img src="images/photo28.jpg"><div class="caption">Фото 28: вечерние огни</div></div>
-<div class="carousel-item"><img src="images/photo29.jpg"><div class="caption">Фото 29: мандариновый свет</div></div>
-<div class="carousel-item"><img src="images/photo30.jpg"><div class="caption">Фото 30: счастливый финал</div></div></div>
+  <div class="carousel-item"><img src="images/photo2.jpg"><div class="caption">Фото 2: первые встречи</div></div>
+  <div class="carousel-item"><img src="images/photo3.jpg"><div class="caption">Фото 3: улыбки</div></div>
+  <div class="carousel-item"><img src="images/photo4.jpg"><div class="caption">Фото 4: прогулка</div></div>
+  <div class="carousel-item"><img src="images/photo5.jpg"><div class="caption">Фото 5: вечер</div></div>
+  <div class="carousel-item"><img src="images/photo6.jpg"><div class="caption">Фото 6: смех</div></div>
+  <div class="carousel-item"><img src="images/photo7.jpg"><div class="caption">Фото 7: разговоры</div></div>
+  <div class="carousel-item"><img src="images/photo8.jpg"><div class="caption">Фото 8: дождь</div></div>
+  <div class="carousel-item"><img src="images/photo9.jpg"><div class="caption">Фото 9: солнце</div></div>
+  <div class="carousel-item"><img src="images/photo10.jpg"><div class="caption">Фото 10: закат</div></div>
+  <div class="carousel-item"><img src="images/photo11.jpg"><div class="caption">Фото 11: прогулка вечером</div></div>
+  <div class="carousel-item"><img src="images/photo12.jpg"><div class="caption">Фото 12: кофе</div></div>
+  <div class="carousel-item"><img src="images/photo13.jpg"><div class="caption">Фото 13: смех под дождем</div></div>
+  <div class="carousel-item"><img src="images/photo14.jpg"><div class="caption">Фото 14: совместные планы</div></div>
+  <div class="carousel-item"><img src="images/photo15.jpg"><div class="caption">Фото 15: вечерние огни</div></div>
+  <div class="carousel-item"><img src="images/photo16.jpg"><div class="caption">Фото 16: шепот</div></div>
+  <div class="carousel-item"><img src="images/photo17.jpg"><div class="caption">Фото 17: маленькие радости</div></div>
+  <div class="carousel-item"><img src="images/photo18.jpg"><div class="caption">Фото 18: смех до слез</div></div>
+  <div class="carousel-item"><img src="images/photo19.jpg"><div class="caption">Фото 19: прогулка ночью</div></div>
+  <div class="carousel-item"><img src="images/photo20.jpg"><div class="caption">Фото 20: мандариновый закат</div></div>
+  <div class="carousel-item"><img src="images/photo21.jpg"><div class="caption">Фото 21: уютные моменты</div></div>
+  <div class="carousel-item"><img src="images/photo22.jpg"><div class="caption">Фото 22: смех и радость</div></div>
+  <div class="carousel-item"><img src="images/photo23.jpg"><div class="caption">Фото 23: прогулка вдвоем</div></div>
+  <div class="carousel-item"><img src="images/photo24.jpg"><div class="caption">Фото 24: вечерние огни города</div></div>
+  <div class="carousel-item"><img src="images/photo25.jpg"><div class="caption">Фото 25: разговоры о мечтах</div></div>
+  <div class="carousel-item"><img src="images/photo26.jpg"><div class="caption">Фото 26: улыбки и счастье</div></div>
+  <div class="carousel-item"><img src="images/photo27.jpg"><div class="caption">Фото 27: дождливый день</div></div>
+  <div class="carousel-item"><img src="images/photo28.jpg"><div class="caption">Фото 28: вечерние мысли</div></div>
+  <div class="carousel-item"><img src="images/photo29.jpg"><div class="caption">Фото 29: прогулка у моря</div></div>
+  <div class="carousel-item"><img src="images/photo30.jpg"><div class="caption">Фото 30: счастливый финал</div></div>
+</div>
 
 <div class="carousel-indicators" id="carousel-indicators"></div>
 
 <div class="modal" id="modal">
   <div class="nav-arrow nav-left" id="prev">&#8592;</div>
   <div class="nav-arrow nav-right" id="next">&#8594;</div>
+  <img id="modal-photo" src="" alt="Фото цитаты">
   <div class="quote-container"></div>
 </div>
 
@@ -235,79 +252,76 @@ footer{
 
 <script>
 const quotesText=[
-"Она пахла мандаринами и утренним солнцем.",
-"Каждое утро начиналось с её улыбки.",
-"Любовь — это не чувство, это привычка быть рядом.",
-"С каждым взглядом мир становился ярче.",
-"Наши разговоры были как сладкий сок мандарина.",
-"Её смех звучал, как летнее солнце.",
-"В её глазах отражались все мои мечты.",
-"Даже тишина между нами была наполнена теплом.",
-"Мы держались за руки, словно берегли целый мир.",
-"Её присутствие делало серые дни золотыми.",
-"Каждый наш вечер пахнул апельсинами и дождём.",
-"Любовь — это когда вместе даже молчать приятно.",
-"Она была моим солнечным лучом в пасмурный день.",
-"Мы гуляли по улицам, как герои собственного фильма.",
-"Её прикосновение оставляло шрамы счастья на сердце.",
-"Даже дождь казался ласковым, когда она рядом.",
-"Мы создавали маленькие ритуалы, которые никто не понимал.",
-"Её голос был как мелодия, которую я не хотел забывать.",
-"Каждый день с ней был как кусочек мандаринового неба.",
-"Она умела превращать обыденность в магию.",
-"Я терял счёт времени, когда смотрел на неё.",
-"Наши шёпоты были тёплыми, как домашний плед.",
-"Её смех лечил мои самые старые раны.",
-"Вместе мы создавали свои маленькие праздники.",
-"Она была ароматом счастья, который невозможно забыть.",
-"Мы знали друг друга лучше, чем мир сам себя.",
-"Каждое слово от неё было как подарок.",
-"Её присутствие делало обычные вещи волшебными.",
-"Мы умели находить счастье в самых маленьких моментах.",
-"Любовь с ней была как вечный закат — яркая и теплая."
+"Начало истории. С первых взглядов всё казалось особенным.",
+"Первые встречи заставили сердце биться быстрее.",
+"Улыбки, которые согревали души.",
+"Прогулка под солнцем, полная света.",
+"Вечер, когда мы делились мечтами.",
+"Смех, который звучал как музыка.",
+"Разговоры, в которых раскрывались сердца.",
+"Дождь и мы, смеясь под каплями.",
+"Солнце в наших руках и в глазах.",
+"Закат, который запомнился навсегда.",
+"Прогулка вечером под фонарями.",
+"Кофе и теплые слова.",
+"Смех под дождем словно магия.",
+"Совместные планы и надежды.",
+"Вечерние огни, отражение счастья.",
+"Шепот на улице под светом фонарей.",
+"Маленькие радости повседневности.",
+"Смех до слёз, незабываемый.",
+"Прогулка ночью, полная тайн.",
+"Мандариновый закат в наших сердцах.",
+"Уютные моменты вместе.",
+"Смех и радость, что не кончаются.",
+"Прогулка вдвоём, рука в руке.",
+"Вечерние огни города создавали магию.",
+"Разговоры о мечтах и планах.",
+"Улыбки и счастье в каждом мгновении.",
+"Дождливый день с теплым теплом.",
+"Вечерние мысли и тихие разговоры.",
+"Прогулка у моря, где мечты сбываются.",
+"Счастливый финал истории о нас."
 ];
 
 const items=document.querySelectorAll('.carousel-item');
 const modal=document.getElementById('modal');
 const carousel=document.getElementById('carousel');
 const quoteContainer=modal.querySelector('.quote-container');
+const modalPhoto=document.getElementById('modal-photo');
 const tick=document.getElementById('tick');
 const indicatorsContainer=document.getElementById('carousel-indicators');
 let currentIndex=0;
 
-// создаём точки мини-карты
 items.forEach((item,index)=>{
-  const dot = document.createElement('span');
+  const dot=document.createElement('span');
   dot.classList.add('dot');
   if(index===0) dot.classList.add('active');
-  dot.addEventListener('click', ()=>{
-    showModal(index);
-    scrollToItem(index);
-  });
+  dot.addEventListener('click',()=>{ showModal(index); scrollToItem(index); });
   indicatorsContainer.appendChild(dot);
 });
 
 function updateDots(){
   const dots = indicatorsContainer.querySelectorAll('.dot');
-  dots.forEach((dot,i)=>{
-    dot.classList.toggle('active', i===currentIndex);
-  });
+  dots.forEach((dot,i)=>{ dot.classList.toggle('active',i===currentIndex); });
 }
-
-function scrollToItem(index){
-  items[index].scrollIntoView({behavior:'smooth', inline:'center'});
-}
+function scrollToItem(index){ items[index].scrollIntoView({behavior:'smooth', inline:'center'}); }
 
 function showModal(index){
   currentIndex=index;
+  // сброс анимации
+  modalPhoto.style.animation = 'none';
+  void modalPhoto.offsetWidth;
+  modalPhoto.src = items[index].querySelector('img').src;
+  modalPhoto.style.animation = 'photoPop 0.5s forwards';
+
   quoteContainer.innerHTML='';
   quotesText[index].split(' ').forEach((word,i)=>{
     const span=document.createElement('span');
     span.style.animationDelay=`${i*0.08}s`;
-    span.textContent = word;
+    span.textContent=word;
     span.classList.add('quote-word');
     quoteContainer.appendChild(span);
-    quoteContainer.appendChild(document.createTextNode(' '));
   });
   modal.classList.add('active');
   carousel.style.filter='blur(2px) brightness(0.6)';
@@ -315,7 +329,6 @@ function showModal(index){
   tick.play();
   updateDots();
 }
-
 function prevQuote(){ currentIndex=(currentIndex-1+quotesText.length)%quotesText.length; showModal(currentIndex);}
 function nextQuote(){ currentIndex=(currentIndex+1)%quotesText.length; showModal(currentIndex);}
 
@@ -324,24 +337,17 @@ modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remo
 document.getElementById('prev').addEventListener('click',(e)=>{e.stopPropagation(); prevQuote();});
 document.getElementById('next').addEventListener('click',(e)=>{e.stopPropagation(); nextQuote();});
 
-// Parallax и анимация фото
 function reveal(){
   const bottom=window.innerHeight;
   items.forEach(item=>{
     const rect=item.getBoundingClientRect();
-    if(rect.top<bottom-50){
-      item.classList.add('visible');
-      item.style.transform=`translateY(${rect.top*0.05}px)`;
-    }
+    if(rect.top<bottom-50){ item.classList.add('visible'); }
   });
 }
-window.addEventListener('scroll',reveal);
-reveal();
+window.addEventListener('scroll',reveal); reveal();
 
-// Темная/светлая тема
 document.querySelector('.theme-toggle').addEventListener('click',()=>{ document.body.classList.toggle('dark'); });
 
-// Свайп для мобильных
 let startX=0;
 modal.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; });
 modal.addEventListener('touchend',e=>{

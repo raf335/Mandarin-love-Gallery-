@@ -1,140 +1,158 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Мандориновая любовь 🍊</title>
-  <style>
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, #ffb88c, #de6262);
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мандориновая любовь</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #FFA07A, #FF6347);
+    color: #fff;
+    overflow-x: hidden;
+  }
 
-    h1 {
-      text-align: center;
-      margin: 25px 10px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
+  header {
+    text-align: center;
+    padding: 30px 10px;
+    font-size: 2.2em;
+    font-weight: bold;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  }
 
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      padding: 20px;
-      max-width: 1200px;
-    }
+  .cover {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    animation: fadeIn 2s ease-in;
+  }
 
-    .photo {
-      position: relative;
-      width: 250px;
-      cursor: pointer;
-      overflow: hidden;
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-    }
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 15px;
+    padding: 20px 10px;
+  }
 
-    .photo:hover {
-      transform: scale(1.03);
-    }
+  .carousel-item {
+    position: relative;
+    flex: 0 0 auto;
+    width: 80%;
+    max-width: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    scroll-snap-align: center;
+    transition: transform 0.3s, box-shadow 0.5s;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
 
-    .photo img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      display: block;
-    }
+  .carousel-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6), 0 0 20px rgba(255,165,0,0.5);
+  }
 
-    .quote {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.65);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      border-radius: 12px;
-      opacity: 0;
-      transition: opacity 0.5s ease, transform 0.4s ease;
-      transform: scale(0.95);
-    }
+  .carousel-item img {
+    width: 100%;
+    display: block;
+  }
 
-    .photo.active .quote {
-      opacity: 1;
-      transform: scale(1);
-    }
+  .quote {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    padding: 20px;
+    transition: opacity 0.4s ease;
+    font-size: 1em;
+    line-height: 1.4;
+  }
 
-    @media (max-width: 768px) {
-      .photo {
-        width: 45%;
-      }
-    }
+  .carousel-item.active .quote {
+    opacity: 1;
+  }
 
-    @media (max-width: 480px) {
-      .photo {
-        width: 90%;
-      }
-    }
-  </style>
+  .carousel-item:nth-child(n) { animation-delay: calc(0.1s * var(--i)); }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+  .carousel::-webkit-scrollbar { display: none; }
+
+  @media (max-width: 600px) {
+    .carousel-item { width: 90%; }
+    .quote { font-size: 0.95em; padding: 15px; }
+  }
+
+  footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+</style>
 </head>
 <body>
-  <h1>Мандориновая любовь 🍊</h1>
 
-  <div class="gallery">
-   
-    <div class="photo"><img src="1.jpg"><div class="quote">"Иногда любовь пахнет цитрусом."</div></div>
-    <div class="photo"><img src="2.jpg"><div class="quote">"Она улыбалась — и солнце стеснялось светить."</div></div>
-    <div class="photo"><img src="3.jpg"><div class="quote">"Мандариновый вкус остался на губах."</div></div>
-    <div class="photo"><img src="4.jpg"><div class="quote">"Время замедляется, когда смотришь в её глаза."</div></div>
-    <div class="photo"><img src="5.jpg"><div class="quote">"Каждое прощание пахло зимним утром."</div></div>
-    <div class="photo"><img src="6.jpg"><div class="quote">"Она — мой свет, даже когда всё в тумане."</div></div>
-    <div class="photo"><img src="7.jpg"><div class="quote">"Любовь — это когда не ищешь смысла."</div></div>
-    <div class="photo"><img src="8.jpg"><div class="quote">"Сладость в её голосе была опаснее греха."</div></div>
-    <div class="photo"><img src="9.jpg"><div class="quote">"Мы были юны и бесстрашны, как утро."</div></div>
-    <div class="photo"><img src="10.jpg"><div class="quote">"Её смех звучал громче города."</div></div>
-    <div class="photo"><img src="11.jpg"><div class="quote">"Нежность — не слова, а прикосновения."</div></div>
-    <div class="photo"><img src="12.jpg"><div class="quote">"Он молчал, потому что слова были лишними."</div></div>
-    <div class="photo"><img src="13.jpg"><div class="quote">"Любовь — это воспоминание, которое не отпускает."</div></div>
-    <div class="photo"><img src="14.jpg"><div class="quote">"Солнце садилось, но их чувства нет."</div></div>
-    <div class="photo"><img src="15.jpg"><div class="quote">"Она пахла ветром и свободой."</div></div>
-    <div class="photo"><img src="16.jpg"><div class="quote">"Мандариновый свет на её коже."</div></div>
-    <div class="photo"><img src="17.jpg"><div class="quote">"Сердце не ошибается — оно просто выбирает."</div></div>
-    <div class="photo"><img src="18.jpg"><div class="quote">"Иногда молчание говорит громче."</div></div>
-    <div class="photo"><img src="19.jpg"><div class="quote">"Они были как день и ночь, но вместе — рассвет."</div></div>
-    <div class="photo"><img src="20.jpg"><div class="quote">"Она улыбалась, даже когда плакала."</div></div>
-    <div class="photo"><img src="21.jpg"><div class="quote">"Каждая зима начинается с её воспоминаний."</div></div>
-    <div class="photo"><img src="22.jpg"><div class="quote">"Сердце бьётся чаще, когда вспоминаешь."</div></div>
-    <div class="photo"><img src="23.jpg"><div class="quote">"Он держал её ладонь, будто это всё, что есть."</div></div>
-    <div class="photo"><img src="24.jpg"><div class="quote">"Тишина между ними была громкой."</div></div>
-    <div class="photo"><img src="25.jpg"><div class="quote">"Любовь — это помнить вкус её смеха."</div></div>
-    <div class="photo"><img src="26.jpg"><div class="quote">"Солнце сквозь занавес — их утро."</div></div>
-    <div class="photo"><img src="27.jpg"><div class="quote">"Они не обещали вечность — просто были."</div></div>
-    <div class="photo"><img src="28.jpg"><div class="quote">"Город спал, а они — нет."</div></div>
-    <div class="photo"><img src="29.jpg"><div class="quote">"Мандариновая любовь — это когда тепло внутри."</div></div>
-    <div class="photo"><img src="30.jpg"><div class="quote">"И даже если всё закончится — они всё равно будут."</div></div>
-  </div>
+<header>Мандориновая любовь</header>
 
-  <script>
-    const photos = document.querySelectorAll('.photo');
-    photos.forEach(photo => {
-      photo.addEventListener('click', () => {
-        photo.classList.toggle('active');
-        photos.forEach(p => {
-          if (p !== photo) p.classList.remove('active');
-        });
+<img src="images/cover.jpg" alt="Обложка" class="cover">
+
+<div class="carousel">
+  <!-- Шаблон на 30 фото -->
+  <div class="carousel-item" style="--i:1"><img src="images/photo1.jpg" alt="Фото 1"><div class="quote">"Цитата 1"</div></div>
+  <div class="carousel-item" style="--i:2"><img src="images/photo2.jpg" alt="Фото 2"><div class="quote">"Цитата 2"</div></div>
+  <div class="carousel-item" style="--i:3"><img src="images/photo3.jpg" alt="Фото 3"><div class="quote">"Цитата 3"</div></div>
+  <div class="carousel-item" style="--i:4"><img src="images/photo4.jpg" alt="Фото 4"><div class="quote">"Цитата 4"</div></div>
+  <div class="carousel-item" style="--i:5"><img src="images/photo5.jpg" alt="Фото 5"><div class="quote">"Цитата 5"</div></div>
+  <div class="carousel-item" style="--i:6"><img src="images/photo6.jpg" alt="Фото 6"><div class="quote">"Цитата 6"</div></div>
+  <div class="carousel-item" style="--i:7"><img src="images/photo7.jpg" alt="Фото 7"><div class="quote">"Цитата 7"</div></div>
+  <div class="carousel-item" style="--i:8"><img src="images/photo8.jpg" alt="Фото 8"><div class="quote">"Цитата 8"</div></div>
+  <div class="carousel-item" style="--i:9"><img src="images/photo9.jpg" alt="Фото 9"><div class="quote">"Цитата 9"</div></div>
+  <div class="carousel-item" style="--i:10"><img src="images/photo10.jpg" alt="Фото 10"><div class="quote">"Цитата 10"</div></div>
+  <div class="carousel-item" style="--i:11"><img src="images/photo11.jpg" alt="Фото 11"><div class="quote">"Цитата 11"</div></div>
+  <div class="carousel-item" style="--i:12"><img src="images/photo12.jpg" alt="Фото 12"><div class="quote">"Цитата 12"</div></div>
+  <div class="carousel-item" style="--i:13"><img src="images/photo13.jpg" alt="Фото 13"><div class="quote">"Цитата 13"</div></div>
+  <div class="carousel-item" style="--i:14"><img src="images/photo14.jpg" alt="Фото 14"><div class="quote">"Цитата 14"</div></div>
+  <div class="carousel-item" style="--i:15"><img src="images/photo15.jpg" alt="Фото 15"><div class="quote">"Цитата 15"</div></div>
+  <div class="carousel-item" style="--i:16"><img src="images/photo16.jpg" alt="Фото 16"><div class="quote">"Цитата 16"</div></div>
+  <div class="carousel-item" style="--i:17"><img src="images/photo17.jpg" alt="Фото 17"><div class="quote">"Цитата 17"</div></div>
+  <div class="carousel-item" style="--i:18"><img src="images/photo18.jpg" alt="Фото 18"><div class="quote">"Цитата 18"</div></div>
+  <div class="carousel-item" style="--i:19"><img src="images/photo19.jpg" alt="Фото 19"><div class="quote">"Цитата 19"</div></div>
+  <div class="carousel-item" style="--i:20"><img src="images/photo20.jpg" alt="Фото 20"><div class="quote">"Цитата 20"</div></div>
+  <div class="carousel-item" style="--i:21"><img src="images/photo21.jpg" alt="Фото 21"><div class="quote">"Цитата 21"</div></div>
+  <div class="carousel-item" style="--i:22"><img src="images/photo22.jpg" alt="Фото 22"><div class="quote">"Цитата 22"</div></div>
+  <div class="carousel-item" style="--i:23"><img src="images/photo23.jpg" alt="Фото 23"><div class="quote">"Цитата 23"</div></div>
+  <div class="carousel-item" style="--i:24"><img src="images/photo24.jpg" alt="Фото 24"><div class="quote">"Цитата 24"</div></div>
+  <div class="carousel-item" style="--i:25"><img src="images/photo25.jpg" alt="Фото 25"><div class="quote">"Цитата 25"</div></div>
+  <div class="carousel-item" style="--i:26"><img src="images/photo26.jpg" alt="Фото 26"><div class="quote">"Цитата 26"</div></div>
+  <div class="carousel-item" style="--i:27"><img src="images/photo27.jpg" alt="Фото 27"><div class="quote">"Цитата 27"</div></div>
+  <div class="carousel-item" style="--i:28"><img src="images/photo28.jpg" alt="Фото 28"><div class="quote">"Цитата 28"</div></div>
+  <div class="carousel-item" style="--i:29"><img src="images/photo29.jpg" alt="Фото 29"><div class="quote">"Цитата 29"</div></div>
+  <div class="carousel-item" style="--i:30"><img src="images/photo30.jpg" alt="Фото 30"><div class="quote">"Цитата 30"</div></div>
+</div>
+
+<footer>© 2025 Мандориновая любовь</footer>
+
+<script>
+  const items = document.querySelectorAll('.carousel-item');
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('active');
+      items.forEach(i => {
+        if (i !== item) i.classList.remove('active');
       });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>

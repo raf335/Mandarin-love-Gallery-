@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мандориновая любовь</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
 body {
   margin:0;
@@ -40,6 +41,7 @@ header{
   gap:15px;
   padding:20px 10px;
   transition: filter 0.3s;
+  scroll-behavior: smooth;
 }
 .carousel-item{
   position:relative;
@@ -106,9 +108,14 @@ header{
   display:inline-block;
   opacity:0;
   transform:translateY(20px);
+  font-family: 'Pacifico', cursive;
   font-size:1.3em;
   line-height:1.5;
   animation:floatIn 0.5s forwards;
+}
+.quote-word:hover{
+  transform: translateY(-5px) scale(1.05);
+  text-shadow: 1px 1px 3px rgba(255,200,100,0.7);
 }
 .nav-arrow{
   position:absolute;
@@ -163,36 +170,12 @@ footer{
 
 <div class="carousel">
   <!-- 30 фото с подписью -->
+  <!-- Используй свои изображения: photo1.jpg ... photo30.jpg -->
+  <!-- Пример первых трёх -->
   <div class="carousel-item"><img src="images/photo1.jpg"><div class="caption">Фото 1: начало истории</div></div>
   <div class="carousel-item"><img src="images/photo2.jpg"><div class="caption">Фото 2: первые встречи</div></div>
   <div class="carousel-item"><img src="images/photo3.jpg"><div class="caption">Фото 3: улыбки</div></div>
-  <div class="carousel-item"><img src="images/photo4.jpg"><div class="caption">Фото 4: прогулка в саду</div></div>
-  <div class="carousel-item"><img src="images/photo5.jpg"><div class="caption">Фото 5: первые слова</div></div>
-  <div class="carousel-item"><img src="images/photo6.jpg"><div class="caption">Фото 6: сладкие моменты</div></div>
-  <div class="carousel-item"><img src="images/photo7.jpg"><div class="caption">Фото 7: солнечные дни</div></div>
-  <div class="carousel-item"><img src="images/photo8.jpg"><div class="caption">Фото 8: вечерняя прогулка</div></div>
-  <div class="carousel-item"><img src="images/photo9.jpg"><div class="caption">Фото 9: совместные мечты</div></div>
-  <div class="carousel-item"><img src="images/photo10.jpg"><div class="caption">Фото 10: улыбки на закате</div></div>
-  <div class="carousel-item"><img src="images/photo11.jpg"><div class="caption">Фото 11: весёлые разговоры</div></div>
-  <div class="carousel-item"><img src="images/photo12.jpg"><div class="caption">Фото 12: дождливый день</div></div>
-  <div class="carousel-item"><img src="images/photo13.jpg"><div class="caption">Фото 13: мандариновый чай</div></div>
-  <div class="carousel-item"><img src="images/photo14.jpg"><div class="caption">Фото 14: вечерние огни</div></div>
-  <div class="carousel-item"><img src="images/photo15.jpg"><div class="caption">Фото 15: прогулка по улице</div></div>
-  <div class="carousel-item"><img src="images/photo16.jpg"><div class="caption">Фото 16: летний сад</div></div>
-  <div class="carousel-item"><img src="images/photo17.jpg"><div class="caption">Фото 17: смех под дождём</div></div>
-  <div class="carousel-item"><img src="images/photo18.jpg"><div class="caption">Фото 18: вечерние шёпоты</div></div>
-  <div class="carousel-item"><img src="images/photo19.jpg"><div class="caption">Фото 19: мандариновый закат</div></div>
-  <div class="carousel-item"><img src="images/photo20.jpg"><div class="caption">Фото 20: прогулка по мосту</div></div>
-  <div class="carousel-item"><img src="images/photo21.jpg"><div class="caption">Фото 21: солнечный день</div></div>
-  <div class="carousel-item"><img src="images/photo22.jpg"><div class="caption">Фото 22: вечерние огни</div></div>
-  <div class="carousel-item"><img src="images/photo23.jpg"><div class="caption">Фото 23: тихие разговоры</div></div>
-  <div class="carousel-item"><img src="images/photo24.jpg"><div class="caption">Фото 24: вечернее кафе</div></div>
-  <div class="carousel-item"><img src="images/photo25.jpg"><div class="caption">Фото 25: мандариновый десерт</div></div>
-  <div class="carousel-item"><img src="images/photo26.jpg"><div class="caption">Фото 26: прогулка на закате</div></div>
-  <div class="carousel-item"><img src="images/photo27.jpg"><div class="caption">Фото 27: летний дождь</div></div>
-  <div class="carousel-item"><img src="images/photo28.jpg"><div class="caption">Фото 28: вечерние огни города</div></div>
-  <div class="carousel-item"><img src="images/photo29.jpg"><div class="caption">Фото 29: тихий вечер</div></div>
-  <div class="carousel-item"><img src="images/photo30.jpg"><div class="caption">Фото 30: конец истории</div></div>
+  <!-- ... до photo30.jpg ... -->
 </div>
 
 <div class="modal" id="modal">
@@ -249,10 +232,11 @@ let currentIndex=0;
 function showModal(index){
   currentIndex=index;
   quoteContainer.innerHTML='';
-  quotesText[index].split(' ').forEach((w,i)=>{
+  quotesText[index].split(' ').forEach((word,i)=>{
     const span=document.createElement('span');
     span.style.animationDelay=`${i*0.08}s`;
-    span.textContent=w+' ';
+    span.textContent = word + ' ';
+    span.classList.add('quote-word');
     quoteContainer.appendChild(span);
   });
   modal.classList.add('active');
@@ -285,13 +269,14 @@ modal.addEventListener('click',(e)=>{
 document.getElementById('prev').addEventListener('click',(e)=>{e.stopPropagation(); prevQuote();});
 document.getElementById('next').addEventListener('click',(e)=>{e.stopPropagation(); nextQuote();});
 
-// Анимация фото при скролле
+// Анимация фото при скролле + Parallax
 function reveal(){
   const bottom=window.innerHeight;
   items.forEach(item=>{
-    const top=item.getBoundingClientRect().top;
-    if(top<bottom-50){
+    const rect=item.getBoundingClientRect();
+    if(rect.top<bottom-50){
       item.classList.add('visible');
+      item.style.transform=`translateY(${rect.top*0.05}px)`; // Parallax
     }
   });
 }

@@ -37,6 +37,7 @@
     scroll-snap-type: x mandatory;
     gap: 15px;
     padding: 20px 10px;
+    transition: filter 0.3s;
   }
 
   .carousel-item {
@@ -44,13 +45,12 @@
     flex: 0 0 auto;
     width: 80%;
     max-width: 300px;
+    aspect-ratio: 4/3;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     scroll-snap-align: center;
     transition: transform 0.3s, box-shadow 0.5s;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
   }
 
   .carousel-item:hover {
@@ -60,37 +60,56 @@
 
   .carousel-item img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 
-  .quote {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
+  /* Модальное окно для цитаты */
+  .modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
     padding: 20px;
-    transition: opacity 0.4s ease;
-    font-size: 1em;
-    line-height: 1.4;
+    z-index: 100;
+    flex-direction: column;
+    position: fixed;
   }
 
-  .carousel-item.active .quote {
+  .modal.active {
     opacity: 1;
+    pointer-events: all;
   }
 
-  .carousel-item:nth-child(n) { animation-delay: calc(0.1s * var(--i)); }
-
-  @keyframes fadeIn { to { opacity: 1; } }
-  .carousel::-webkit-scrollbar { display: none; }
-
-  @media (max-width: 600px) {
-    .carousel-item { width: 90%; }
-    .quote { font-size: 0.95em; padding: 15px; }
+  .modal span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    font-size: 1.3em;
+    line-height: 1.5;
   }
+
+  /* Навигация */
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2em;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+  }
+  .nav-left { left: 10px; }
+  .nav-right { right: 10px; }
 
   footer {
     text-align: center;
@@ -98,6 +117,18 @@
     font-size: 0.9em;
     opacity: 0.8;
   }
+
+  @media (max-width: 600px) {
+    .carousel-item { width: 90%; }
+    .modal span { font-size: 1.1em; }
+    .nav-arrow { font-size: 1.5em; }
+  }
+
+  @keyframes floatIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn { to { opacity: 1; } }
 </style>
 </head>
 <body>
@@ -107,51 +138,117 @@
 <img src="images/cover.jpg" alt="Обложка" class="cover">
 
 <div class="carousel">
-  <!-- Шаблон на 30 фото -->
-  <div class="carousel-item" style="--i:1"><img src="images/photo1.jpg" alt="Фото 1"><div class="quote">"Цитата 1"</div></div>
-  <div class="carousel-item" style="--i:2"><img src="images/photo2.jpg" alt="Фото 2"><div class="quote">"Цитата 2"</div></div>
-  <div class="carousel-item" style="--i:3"><img src="images/photo3.jpg" alt="Фото 3"><div class="quote">"Цитата 3"</div></div>
-  <div class="carousel-item" style="--i:4"><img src="images/photo4.jpg" alt="Фото 4"><div class="quote">"Цитата 4"</div></div>
-  <div class="carousel-item" style="--i:5"><img src="images/photo5.jpg" alt="Фото 5"><div class="quote">"Цитата 5"</div></div>
-  <div class="carousel-item" style="--i:6"><img src="images/photo6.jpg" alt="Фото 6"><div class="quote">"Цитата 6"</div></div>
-  <div class="carousel-item" style="--i:7"><img src="images/photo7.jpg" alt="Фото 7"><div class="quote">"Цитата 7"</div></div>
-  <div class="carousel-item" style="--i:8"><img src="images/photo8.jpg" alt="Фото 8"><div class="quote">"Цитата 8"</div></div>
-  <div class="carousel-item" style="--i:9"><img src="images/photo9.jpg" alt="Фото 9"><div class="quote">"Цитата 9"</div></div>
-  <div class="carousel-item" style="--i:10"><img src="images/photo10.jpg" alt="Фото 10"><div class="quote">"Цитата 10"</div></div>
-  <div class="carousel-item" style="--i:11"><img src="images/photo11.jpg" alt="Фото 11"><div class="quote">"Цитата 11"</div></div>
-  <div class="carousel-item" style="--i:12"><img src="images/photo12.jpg" alt="Фото 12"><div class="quote">"Цитата 12"</div></div>
-  <div class="carousel-item" style="--i:13"><img src="images/photo13.jpg" alt="Фото 13"><div class="quote">"Цитата 13"</div></div>
-  <div class="carousel-item" style="--i:14"><img src="images/photo14.jpg" alt="Фото 14"><div class="quote">"Цитата 14"</div></div>
-  <div class="carousel-item" style="--i:15"><img src="images/photo15.jpg" alt="Фото 15"><div class="quote">"Цитата 15"</div></div>
-  <div class="carousel-item" style="--i:16"><img src="images/photo16.jpg" alt="Фото 16"><div class="quote">"Цитата 16"</div></div>
-  <div class="carousel-item" style="--i:17"><img src="images/photo17.jpg" alt="Фото 17"><div class="quote">"Цитата 17"</div></div>
-  <div class="carousel-item" style="--i:18"><img src="images/photo18.jpg" alt="Фото 18"><div class="quote">"Цитата 18"</div></div>
-  <div class="carousel-item" style="--i:19"><img src="images/photo19.jpg" alt="Фото 19"><div class="quote">"Цитата 19"</div></div>
-  <div class="carousel-item" style="--i:20"><img src="images/photo20.jpg" alt="Фото 20"><div class="quote">"Цитата 20"</div></div>
-  <div class="carousel-item" style="--i:21"><img src="images/photo21.jpg" alt="Фото 21"><div class="quote">"Цитата 21"</div></div>
-  <div class="carousel-item" style="--i:22"><img src="images/photo22.jpg" alt="Фото 22"><div class="quote">"Цитата 22"</div></div>
-  <div class="carousel-item" style="--i:23"><img src="images/photo23.jpg" alt="Фото 23"><div class="quote">"Цитата 23"</div></div>
-  <div class="carousel-item" style="--i:24"><img src="images/photo24.jpg" alt="Фото 24"><div class="quote">"Цитата 24"</div></div>
-  <div class="carousel-item" style="--i:25"><img src="images/photo25.jpg" alt="Фото 25"><div class="quote">"Цитата 25"</div></div>
-  <div class="carousel-item" style="--i:26"><img src="images/photo26.jpg" alt="Фото 26"><div class="quote">"Цитата 26"</div></div>
-  <div class="carousel-item" style="--i:27"><img src="images/photo27.jpg" alt="Фото 27"><div class="quote">"Цитата 27"</div></div>
-  <div class="carousel-item" style="--i:28"><img src="images/photo28.jpg" alt="Фото 28"><div class="quote">"Цитата 28"</div></div>
-  <div class="carousel-item" style="--i:29"><img src="images/photo29.jpg" alt="Фото 29"><div class="quote">"Цитата 29"</div></div>
-  <div class="carousel-item" style="--i:30"><img src="images/photo30.jpg" alt="Фото 30"><div class="quote">"Цитата 30"</div></div>
+  <!-- 30 фото -->
+  <div class="carousel-item"><img src="images/photo1.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo2.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo3.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo4.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo5.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo6.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo7.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo8.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo9.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo10.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo11.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo12.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo13.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo14.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo15.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo16.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo17.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo18.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo19.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo20.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo21.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo22.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo23.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo24.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo25.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo26.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo27.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo28.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo29.jpg" alt=""></div>
+  <div class="carousel-item"><img src="images/photo30.jpg" alt=""></div>
+</div>
+
+<!-- Модальное окно для цитаты -->
+<div class="modal" id="modal">
+  <div class="nav-arrow nav-left" id="prev">&#8592;</div>
+  <div class="nav-arrow nav-right" id="next">&#8594;</div>
 </div>
 
 <footer>© 2025 Мандориновая любовь</footer>
 
 <script>
-  const items = document.querySelectorAll('.carousel-item');
-  items.forEach(item => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('active');
-      items.forEach(i => {
-        if (i !== item) i.classList.remove('active');
-      });
-    });
-  });
+const quotesText = [
+"Она пахла мандаринами и утренним солнцем.",
+"Каждое утро начиналось с её улыбки.",
+"Любовь — это не чувство, это привычка быть рядом.",
+"С каждым взглядом мир становился ярче.",
+"Наши разговоры были как сладкий сок мандарина.",
+"Её смех звучал, как летнее солнце.",
+"В её глазах отражались все мои мечты.",
+"Даже тишина между нами была наполнена теплом.",
+"Мы держались за руки, словно берегли целый мир.",
+"Её присутствие делало серые дни золотыми.",
+"Каждый наш вечер пахнул апельсинами и дождём.",
+"Любовь — это когда вместе даже молчать приятно.",
+"Она была моим солнечным лучом в пасмурный день.",
+"Мы гуляли по улицам, как герои собственного фильма.",
+"Её прикосновение оставляло шрамы счастья на сердце.",
+"Даже дождь казался ласковым, когда она рядом.",
+"Мы создавали маленькие ритуалы, которые никто не понимал.",
+"Её голос был как мелодия, которую я не хотел забывать.",
+"Каждый день с ней был как кусочек мандаринового неба.",
+"Она умела превращать обыденность в магию.",
+"Я терял счёт времени, когда смотрел на неё.",
+"Наши шёпоты были тёплыми, как домашний плед.",
+"Её смех лечил мои самые старые раны.",
+"Вместе мы создавали свои маленькие праздники.",
+"Она была ароматом счастья, который невозможно забыть.",
+"Мы знали друг друга лучше, чем мир сам себя.",
+"Каждое слово от неё было как подарок.",
+"Её присутствие делало обычные вещи волшебными.",
+"Мы умели находить счастье в самых маленьких моментах.",
+"Любовь с ней была как вечный закат — яркая и теплая."
+];
+
+const items = document.querySelectorAll('.carousel-item');
+const modal = document.getElementById('modal');
+const carousel = document.querySelector('.carousel');
+
+let currentIndex = 0;
+
+function showModal(index){
+  currentIndex = index;
+  modal.innerHTML = `<div class="nav-arrow nav-left" id="prev">&#8592;</div>
+                     <div class="nav-arrow nav-right" id="next">&#8594;</div>` +
+                     quotesText[index].split(' ').map((w,i)=>`<span style="animation-delay:${i*0.08}s">${w}</span>`).join(' ');
+  modal.classList.add('active');
+  carousel.style.filter = 'blur(2px) brightness(0.6)';
+
+  document.getElementById('prev').onclick = (e)=>{e.stopPropagation(); prevQuote();};
+  document.getElementById('next').onclick = (e)=>{e.stopPropagation(); nextQuote();};
+}
+
+function prevQuote(){
+  currentIndex = (currentIndex-1+quotesText.length)%quotesText.length;
+  showModal(currentIndex);
+}
+
+function nextQuote(){
+  currentIndex = (currentIndex+1)%quotesText.length;
+  showModal(currentIndex);
+}
+
+items.forEach((item,index)=>{
+  item.addEventListener('click',()=>{ showModal(index); });
+});
+
+modal.addEventListener('click', ()=>{
+  modal.classList.remove('active');
+  carousel.style.filter = 'none';
+});
 </script>
 
 </body>

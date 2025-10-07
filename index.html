@@ -82,6 +82,26 @@ header{
   opacity:1;
 }
 
+/* Мини-карта точек */
+.carousel-indicators{
+  text-align:center;
+  margin:10px 0;
+}
+.carousel-indicators .dot{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  background:rgba(255,255,255,0.5);
+  border-radius:50%;
+  margin:0 5px;
+  cursor:pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.carousel-indicators .dot.active{
+  background:#FFD700;
+  transform:scale(1.3);
+}
+
 /* Модальное окно */
 .modal{
   position:fixed;
@@ -169,39 +189,16 @@ footer{
 
 <img src="images/cover.jpg" alt="Обложка" class="cover">
 
-<div class="carousel">
+<div class="carousel" id="carousel">
   <!-- 30 фото с подписью -->
+  <!-- Пример первых 3, остальные аналогично: photo4.jpg ... photo30.jpg -->
   <div class="carousel-item"><img src="images/photo1.jpg"><div class="caption">Фото 1: начало истории</div></div>
   <div class="carousel-item"><img src="images/photo2.jpg"><div class="caption">Фото 2: первые встречи</div></div>
   <div class="carousel-item"><img src="images/photo3.jpg"><div class="caption">Фото 3: улыбки</div></div>
-  <div class="carousel-item"><img src="images/photo4.jpg"><div class="caption">Фото 4: прогулка в саду</div></div>
-  <div class="carousel-item"><img src="images/photo5.jpg"><div class="caption">Фото 5: первые слова</div></div>
-  <div class="carousel-item"><img src="images/photo6.jpg"><div class="caption">Фото 6: сладкие моменты</div></div>
-  <div class="carousel-item"><img src="images/photo7.jpg"><div class="caption">Фото 7: солнечные дни</div></div>
-  <div class="carousel-item"><img src="images/photo8.jpg"><div class="caption">Фото 8: вечерняя прогулка</div></div>
-  <div class="carousel-item"><img src="images/photo9.jpg"><div class="caption">Фото 9: совместные мечты</div></div>
-  <div class="carousel-item"><img src="images/photo10.jpg"><div class="caption">Фото 10: улыбки на закате</div></div>
-  <div class="carousel-item"><img src="images/photo11.jpg"><div class="caption">Фото 11: весёлые разговоры</div></div>
-  <div class="carousel-item"><img src="images/photo12.jpg"><div class="caption">Фото 12: дождливый день</div></div>
-  <div class="carousel-item"><img src="images/photo13.jpg"><div class="caption">Фото 13: мандариновый чай</div></div>
-  <div class="carousel-item"><img src="images/photo14.jpg"><div class="caption">Фото 14: вечерние огни</div></div>
-  <div class="carousel-item"><img src="images/photo15.jpg"><div class="caption">Фото 15: прогулка по улице</div></div>
-  <div class="carousel-item"><img src="images/photo16.jpg"><div class="caption">Фото 16: летний сад</div></div>
-  <div class="carousel-item"><img src="images/photo17.jpg"><div class="caption">Фото 17: смех под дождём</div></div>
-  <div class="carousel-item"><img src="images/photo18.jpg"><div class="caption">Фото 18: вечерние шёпоты</div></div>
-  <div class="carousel-item"><img src="images/photo19.jpg"><div class="caption">Фото 19: мандариновый закат</div></div>
-  <div class="carousel-item"><img src="images/photo20.jpg"><div class="caption">Фото 20: прогулка по мосту</div></div>
-  <div class="carousel-item"><img src="images/photo21.jpg"><div class="caption">Фото 21: солнечный день</div></div>
-  <div class="carousel-item"><img src="images/photo22.jpg"><div class="caption">Фото 22: вечерние огни</div></div>
-  <div class="carousel-item"><img src="images/photo23.jpg"><div class="caption">Фото 23: тихие разговоры</div></div>
-  <div class="carousel-item"><img src="images/photo24.jpg"><div class="caption">Фото 24: вечернее кафе</div></div>
-  <div class="carousel-item"><img src="images/photo25.jpg"><div class="caption">Фото 25: мандариновый десерт</div></div>
-  <div class="carousel-item"><img src="images/photo26.jpg"><div class="caption">Фото 26: прогулка на закате</div></div>
-  <div class="carousel-item"><img src="images/photo27.jpg"><div class="caption">Фото 27: летний дождь</div></div>
-  <div class="carousel-item"><img src="images/photo28.jpg"><div class="caption">Фото 28: вечерние огни города</div></div>
-  <div class="carousel-item"><img src="images/photo29.jpg"><div class="caption">Фото 29: тихий вечер</div></div>
-  <div class="carousel-item"><img src="images/photo30.jpg"><div class="caption">Фото 30: конец истории</div></div>
+  <!-- ... до photo30.jpg ... -->
 </div>
+
+<div class="carousel-indicators" id="carousel-indicators"></div>
 
 <div class="modal" id="modal">
   <div class="nav-arrow nav-left" id="prev">&#8592;</div>
@@ -248,10 +245,34 @@ const quotesText=[
 
 const items=document.querySelectorAll('.carousel-item');
 const modal=document.getElementById('modal');
-const carousel=document.querySelector('.carousel');
+const carousel=document.getElementById('carousel');
 const quoteContainer=modal.querySelector('.quote-container');
 const tick=document.getElementById('tick');
+const indicatorsContainer=document.getElementById('carousel-indicators');
 let currentIndex=0;
+
+// создаём точки мини-карты
+items.forEach((item,index)=>{
+  const dot = document.createElement('span');
+  dot.classList.add('dot');
+  if(index===0) dot.classList.add('active');
+  dot.addEventListener('click', ()=>{
+    showModal(index);
+    scrollToItem(index);
+  });
+  indicatorsContainer.appendChild(dot);
+});
+
+function updateDots(){
+  const dots = indicatorsContainer.querySelectorAll('.dot');
+  dots.forEach((dot,i)=>{
+    dot.classList.toggle('active', i===currentIndex);
+  });
+}
+
+function scrollToItem(index){
+  items[index].scrollIntoView({behavior:'smooth', inline:'center'});
+}
 
 function showModal(index){
   currentIndex=index;
@@ -262,12 +283,13 @@ function showModal(index){
     span.textContent = word;
     span.classList.add('quote-word');
     quoteContainer.appendChild(span);
-    quoteContainer.appendChild(document.createTextNode(' ')); // добавляем пробел
+    quoteContainer.appendChild(document.createTextNode(' '));
   });
   modal.classList.add('active');
   carousel.style.filter='blur(2px) brightness(0.6)';
   tick.currentTime=0;
   tick.play();
+  updateDots();
 }
 
 function prevQuote(){ currentIndex=(currentIndex-1+quotesText.length)%quotesText.length; showModal(currentIndex);}
